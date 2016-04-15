@@ -34,3 +34,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/assert_diff.
 
+NOTE: 
+
+- Improve message for assert_equal
+- find better name for methods (`assert_diff`, `assert_diff_intersect`)
