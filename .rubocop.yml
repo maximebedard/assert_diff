@@ -23,7 +23,7 @@ Metrics/ClassLength:
     - "test/**/*.rb"
 
 Metrics/CyclomaticComplexity:
-  Max: 4
+  Max: 6
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
@@ -81,3 +81,6 @@ Style/PercentLiteralDelimiters:
 
 Style/SignalException:
   EnforcedStyle: only_raise
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
