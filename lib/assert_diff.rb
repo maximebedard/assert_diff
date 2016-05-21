@@ -7,6 +7,6 @@ module AssertDiff
   end
 
   def assert_diff_intersect(expected, actual)
-    assert_equal(*Differ.diff(expected, actual, strict: false))
+    assert_equal(*Differ.diff(expected, actual, intersection: false))
   end
 end

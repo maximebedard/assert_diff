@@ -21,19 +21,19 @@ module AssertDiff
     end
 
     def test_same_values
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["bonjour", "allo"] })
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(bonjour allo) })
       assert_nil a
       assert_nil b
     end
 
     def test_different_values
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["yellow", "molo"] })
-      assert_equal({ a: ["bonjour", "allo"] }, a)
-      assert_equal({ a: ["yellow", "molo"] }, b)
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(yellow molo) })
+      assert_equal({ a: %w(bonjour allo) }, a)
+      assert_equal({ a: %w(yellow molo) }, b)
     end
 
     def test_with_same_and_different_values
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["bonjour", "yolo"] })
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(bonjour yolo) })
       assert_equal({ a: [nil, "allo"] }, a)
       assert_equal({ a: [nil, "yolo"] }, b)
     end
@@ -66,31 +66,31 @@ module AssertDiff
     end
 
     def test_same_array_values
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["bonjour", "allo"] })
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(bonjour allo) })
       assert_nil a
       assert_nil b
     end
 
     def test_different_array_values
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["yellow", "molo"] })
-      assert_equal({ a: ["bonjour", "allo"] }, a)
-      assert_equal({ a: ["yellow", "molo"] }, b)
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(yellow molo) })
+      assert_equal({ a: %w(bonjour allo) }, a)
+      assert_equal({ a: %w(yellow molo) }, b)
     end
 
     def test_with_same_and_different_array_values
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["bonjour", "yolo"] })
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(bonjour yolo) })
       assert_equal({ a: [nil, "allo"] }, a)
       assert_equal({ a: [nil, "yolo"] }, b)
     end
 
     def test_different_array_values_size_on_b
-      a, b = Differ.diff({ a: ["bonjour", "allo"] }, { a: ["bonjour", "yolo", "henry"] })
+      a, b = Differ.diff({ a: %w(bonjour allo) }, { a: %w(bonjour yolo henry) })
       assert_equal({ a: [nil, "allo", nil] }, a)
       assert_equal({ a: [nil, "yolo", "henry"] }, b)
     end
 
     def test_different_array_values_size_on_a
-      a, b = Differ.diff({ a: ["bonjour", "allo", "henry"] }, { a: ["bonjour", "yolo"] })
+      a, b = Differ.diff({ a: %w(bonjour allo henry) }, { a: %w(bonjour yolo) })
       assert_equal({ a: [nil, "allo", "henry"] }, a)
       assert_equal({ a: [nil, "yolo", nil] }, b)
     end
