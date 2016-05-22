@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
   Exclude:
     - bin/**/*
     - db/schema.rb
@@ -84,3 +84,6 @@ Style/SignalException:
 
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
