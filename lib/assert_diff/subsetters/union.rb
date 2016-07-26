@@ -1,8 +1,8 @@
 module AssertDiff
-  module Comparators
-    class Exact
+  module Subsetters
+    class Union
       def call(a, b)
-        a == b
+        a | b
       end
     end
   end

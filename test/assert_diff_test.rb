@@ -7,38 +7,31 @@ class AssertDiffTest < Minitest::Test
     refute_nil ::AssertDiff::VERSION
   end
 
-  def test_assert_diff_equal
-    assert_diff_equal(
+  def test_assert_exact_diff
+    assert_exact_diff(
       { "checkout" => { "token" => 123123, "billing_address" => { "zip" => "90210" } } },
       { "checkout" => { "token" => 123123, "billing_address" => { "zip" => "90210" } } },
     )
   end
 
-  def test_assert_diff_equal_with_regex
-    assert_diff_equal(
+  def test_assert_flexible_diff
+    assert_flexible_diff(
       { "checkout" => { "token" => SecureRandom.hex, "billing_address" => { "zip" => "90210" } } },
       { "checkout" => { "token" => /\w+/, "billing_address" => { "zip" => "90210" } } },
     )
   end
 
-  def test_assert_diff_intersect
-    assert_diff_intersect(
+  def test_assert_exact_diff_intersect
+    assert_exact_diff_intersect(
       { "checkout" => { "token" => "123123", "billing_address" => { "zip" => "90210" } } },
       { "checkout" => { "billing_address" => { "zip" => "90210" } } },
     )
   end
 
-  def test_assert_diff_intersect_with_regex
-    assert_diff_intersect(
+  def test_assert_flexible_diff_intersect
+    assert_flexible_diff_intersect(
       { "checkout" => { "token" => "123123", "billing_address" => { "zip" => "90210" } } },
       { "checkout" => { "token" => /\d+/ } },
-    )
-  end
-
-  def test_assert_hash_intersect_with_class
-    assert_diff_intersect(
-      { "checkout" => { "token" => 123123, "billing_address" => { "zip" => "90210" } } },
-      { "checkout" => { "token" => Integer } },
     )
   end
 end
