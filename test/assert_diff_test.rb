@@ -21,19 +21,19 @@ class AssertDiffTest < Minitest::Test
     )
   end
 
-  # def test_assert_diff_same_array
-  #   assert_diff_same(
-  #     [{ "id" => "USPS-10.00", "price" => "10.00" }, { "id" => "CP-8.00", "price" => "8.00" }],
-  #     [{ "id" => "USPS-10.00", "price" => "10.00" }, { "id" => "CP-8.00", "price" => "8.00" }],
-  #   )
-  # end
-  #
-  # def test_assert_diff_same_union_array
-  #   assert_diff_same(
-  #     [{ "id" => "USPS-10.00", "price" => "10.00" }, { "id" => "CP-8.00", "price" => "10.00" }],
-  #     [{ "id" => "USPS-10.00", "price" => "10.00" }, { "id" => "CP-8.00", "price" => "10.00" }],
-  #   )
-  # end
+  def test_assert_diff_same_array
+    assert_diff_same(
+      [{ "id" => "USPS-10.00", "price" => "10.00" }],
+      [{ "id" => "USPS-10.00", "price" => "10.00" }],
+    )
+  end
+
+  def test_assert_diff_same_union_array
+    assert_diff_same_union(
+      [{ "id" => "USPS-10.00", "price" => "10.00", "title" => "UPS Ground" }],
+      [{ "id" => "USPS-10.00", "price" => "10.00" }],
+    )
+  end
 
   def test_assert_diff_equal
     assert_diff_equal(
@@ -49,9 +49,17 @@ class AssertDiffTest < Minitest::Test
     )
   end
 
-  # def test_assert_diff_equal_array
-  # end
-  #
-  # def test_assert_diff_equal_union_array
-  # end
+  def test_assert_diff_equal_array
+    assert_diff_equal(
+      [{ "id" => "USPS-10.00", "price" => "10.00" }],
+      [{ "id" => /\w+\-\d+\.\d+/, "price" => "10.00" }],
+    )
+  end
+
+  def test_assert_diff_equal_union_array
+    assert_diff_equal_union(
+      [{ "id" => "USPS-10.00", "price" => "10.00" }],
+      [{ "id" => /\w+\-\d+\.\d+/ }],
+    )
+  end
 end
