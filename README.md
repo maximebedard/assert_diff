@@ -124,12 +124,13 @@ Of course™.
 
 # What's missing
 
-Prettier formatting. Make sure assert*.same works correctly, pretty sure the tests are bad.
+- Prettier formatting.
+- Make sure assert*.same works correctly, pretty sure the tests are bad.
 
 # References
 
-[HashDiff](https://github.com/liufengyun/hashdiff)
-[Deep diff](https://gist.github.com/henrik/146844)
-[Rails/Hash/Diff](http://apidock.com/rails/Hash/diff)
-[rspec diff](https://relishapp.com/rspec/rspec-expectations/docs/diffing)
-[minitest assertions](http://ruby-doc.org/stdlib-2.0.0/libdoc/minitest/rdoc/MiniTest/Assertions.html#method-i-diff)
+- [HashDiff](https://github.com/liufengyun/hashdiff)
+- [Deep diff](https://gist.github.com/henrik/146844)
+- [Rails/Hash/Diff](http://apidock.com/rails/Hash/diff)
+- [rspec diff](https://relishapp.com/rspec/rspec-expectations/docs/diffing)
+- [minitest assertions](http://ruby-doc.org/stdlib-2.0.0/libdoc/minitest/rdoc/MiniTest/Assertions.html#method-i-diff)
