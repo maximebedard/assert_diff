@@ -83,3 +83,53 @@ assert_diff_equal_union(
   { "checkout" => { "token" => /\d+/ } },
 )
 ```
+
+# FAQ
+
+> Why this over ActiveSupport/CoreExtensions/Hash/Diff/diff
+
+Because it didn't support deep comparaison, nor arrays
+
+> Why not override MiniTest::Assertions::diff
+
+Nothing prevents doing something similar to the following:
+
+```rb
+def with_custom_differ(expected, actual)
+  @original_differ = self.class.diff
+  self.class.diff = AssertDiff::Differ.new(expected, actual)
+
+  yield
+ensure
+  self.class.diff = @original_differ
+end
+
+def assert_diff_equal(expected, actual, *args)
+  with_custom_differ(expected, actual) do
+    assert_equal(expected, actual, *args)
+  end
+end
+
+# dunnolol, haven't tried it.
+```
+
+But essentially minitest pipes the string representation on the object into the
+system's differ. This implementations actually compares the value using a comparator,
+which allows type coercion or pattern matching. It also allows specifying the relation between
+the keys being observed (Union, Intersection, Difference, SymmetricDifference, etc.).
+
+> Production ready?
+
+Of course™.
+
+# What's missing
+
+Prettier formatting. Make sure assert*.same works correctly, pretty sure the tests are bad.
+
+# References
+
+[HashDiff](https://github.com/liufengyun/hashdiff)
+[Deep diff](https://gist.github.com/henrik/146844)
+[Rails/Hash/Diff](http://apidock.com/rails/Hash/diff)
+[rspec diff](https://relishapp.com/rspec/rspec-expectations/docs/diffing)
+[minitest assertions](http://ruby-doc.org/stdlib-2.0.0/libdoc/minitest/rdoc/MiniTest/Assertions.html#method-i-diff)
