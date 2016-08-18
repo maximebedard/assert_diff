@@ -1,55 +1,62 @@
 require "assert_diff/version"
-require "assert_diff/comparators/exact"
+require "assert_diff/comparators/same"
 require "assert_diff/comparators/flexible"
-require "assert_diff/subsetters/intersection"
-require "assert_diff/subsetters/union"
 require "assert_diff/differ"
 
 module AssertDiff
-  def assert_exact_diff(expected, actual, **options)
+  module Relation
+    Union = -> (a, b) { a & b }
+    Intersection = -> (a, b) { a | b }
+    Difference = -> (a, b) { a - b }
+    SymmetricDifference = -> (a, b) { a & b | b & a }
+  end
+
+  def assert_diff_same(expected, actual, **options)
     assert_diff(
       expected,
       actual,
-      comparator: Comparators::Exact.new,
-      subsetter: Subsetters::Union.new,
+      comparator: Comparators::Same.new,
+      relation: Relation::Intersection,
       **options,
     )
   end
 
-  def assert_exact_diff_intersect(expected, actual, **options)
+  def assert_diff_same_union(expected, actual, **options)
     assert_diff(
       expected,
       actual,
-      comparator: Comparators::Exact.new,
-      subsetter: Subsetters::Intersection.new,
+      comparator: Comparators::Same.new,
+      relation: Relation::Union,
       **options,
     )
   end
 
-  def assert_flexible_diff(expected, actual, **options)
+  def assert_diff_equal(expected, actual, **options)
     assert_diff(
       expected,
       actual,
       comparator: Comparators::Flexible.new,
-      subsetter: Subsetters::Union.new,
+      relation: Relation::Intersection,
       **options,
     )
   end
 
-  def assert_flexible_diff_intersect(expected, actual, **options)
+  def assert_diff_equal_union(expected, actual, **options)
     assert_diff(
       expected,
       actual,
       comparator: Comparators::Flexible.new,
-      subsetter: Subsetters::Intersection.new,
+      relation: Relation::Union,
       **options,
     )
   end
 
-  def assert_diff(expected, actual, comparator:, subsetter:, **options)
+  private
+
+  def assert_diff(expected, actual, comparator:, relation:, **options)
     a, b = Differ.new(
       comparator: comparator,
-      subsetter: subsetter,
+      relation: relation,
     ).diff(expected, actual)
 
     assert_equal(a, b, **options)

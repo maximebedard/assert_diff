@@ -1,8 +1,8 @@
 module AssertDiff
   class Differ
-    def initialize(comparator: Comparators::Exact.new, subsetter: Subsetters::Union.new)
+    def initialize(comparator: Comparators::Flexible.new, relation: Relation::Union)
       @comparator = comparator
-      @subsetter = subsetter
+      @relation = relation
     end
 
     def diff(a, b)
@@ -19,7 +19,7 @@ module AssertDiff
 
     private
 
-    attr_reader :comparator, :subsetter
+    attr_reader :comparator, :relation
 
     def hashes?(*args)
       args.all? { |elem| elem.is_a?(Hash) }
@@ -30,7 +30,7 @@ module AssertDiff
     end
 
     def diff_hash(a, b)
-      keys = subsetter.call(a.keys, b.keys)
+      keys = relation.call(a.keys, b.keys)
 
       keys.each_with_object([{}, {}]) do |k, memo|
         next memo unless match = diff(a[k], b[k])
@@ -40,9 +40,10 @@ module AssertDiff
     end
 
     def diff_array(a, b)
-      padright(a, [a.size, b.size].max).zip(b).map do |args|
-        diff(*args) || [nil, nil]
-      end.transpose
+      padright(a, [a.size, b.size].max)
+        .zip(b)
+        .map { |args| diff(*args) || [nil, nil] }
+        .transpose
     end
 
     def padright(a, n)

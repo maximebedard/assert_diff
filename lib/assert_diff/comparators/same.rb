@@ -1,8 +1,8 @@
 module AssertDiff
   module Comparators
-    class Exact
+    class Same
       def call(a, b)
-        a == b
+        a.equal?(b)
       end
     end
   end
