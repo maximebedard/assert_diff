@@ -1,4 +1,4 @@
-module AssertDiff
+module AssertDeepMatches
   class DeepMatcher
     def initialize(relation: Relation::Union)
       @relation = relation

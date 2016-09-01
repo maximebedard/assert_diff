@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'assert_diff/version'
+require 'assert_deep_matches/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "assert_diff"
-  spec.version       = AssertDiff::VERSION
+  spec.name          = "assert_deep_matches"
+  spec.version       = AssertDeepMatches::VERSION
   spec.authors       = ["Maxime Bedard"]
   spec.email         = ["maxime.bedard@shopify.com"]
 

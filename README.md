@@ -1,4 +1,4 @@
-# assert_diff
+# assert_deep_matches
 
 # Why
 
@@ -54,7 +54,7 @@ test "retreive shipping rates" do
     format: :json,
   )
 
-  assert_diff_equal(
+  assert_deep_matches_equal(
     [
       { "title" => "UPS Ground", "price" => "10.00", "id" => "UPS-10.00", "rand_token" => /\w+/ },
       { "title" => "UPS Ground", "price" => "8.00", "id" => "CP-8.00", "rand_token" => /\w+/ },
@@ -69,7 +69,7 @@ end
 Compare all the keys
 
 ```rb
-assert_diff_equal(
+assert_deep_matches_equal(
   { "checkout" => { "token" => SecureRandom.hex, "billing_address" => { "zip" => "90210" } } },
   { "checkout" => { "token" => /\w+/, "billing_address" => { "zip" => "90210" } } },
 )
@@ -78,7 +78,7 @@ assert_diff_equal(
 Compare only a subset of the keys
 
 ```rb
-assert_diff_equal_union(
+assert_deep_matches_equal_union(
   { "checkout" => { "token" => "123123", "billing_address" => { "zip" => "90210" } } },
   { "checkout" => { "token" => /\d+/ } },
 )
@@ -97,14 +97,14 @@ Nothing prevents doing something similar to the following:
 ```rb
 def with_custom_differ(expected, actual)
   @original_differ = self.class.diff
-  self.class.diff = AssertDiff::Differ.new(expected, actual)
+  self.class.diff = AssertDeepMatches::Differ.new(expected, actual)
 
   yield
 ensure
   self.class.diff = @original_differ
 end
 
-def assert_diff_equal(expected, actual, *args)
+def assert_deep_matches_equal(expected, actual, *args)
   with_custom_differ(expected, actual) do
     assert_equal(expected, actual, *args)
   end

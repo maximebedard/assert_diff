@@ -1,10 +1,10 @@
 require "test_helper"
 
-class AssertDiffTest < Minitest::Test
-  include AssertDiff
+class AssertDeepMatchesTest < Minitest::Test
+  include AssertDeepMatches
 
   def test_that_it_has_a_version_number
-    refute_nil ::AssertDiff::VERSION
+    refute_nil ::AssertDeepMatches::VERSION
   end
 
   def test_assert_deep_matches_identical
@@ -32,7 +32,7 @@ class AssertDiffTest < Minitest::Test
     assert_deep_matches(
       { "checkout" => { "token" => "123123", "billing_address" => { "zip" => "90210" } } },
       { "checkout" => { "token" => regexp_matches(/\d+/) } },
-      { relation: AssertDiff::Relation::Union },
+      { relation: AssertDeepMatches::Relation::Union },
     )
   end
 
@@ -47,7 +47,7 @@ class AssertDiffTest < Minitest::Test
     assert_deep_matches(
       [{ "id" => "USPS-10.00", "price" => "10.00" }],
       [{ "id" => regexp_matches(/\w+\-\d+\.\d+/) }],
-      relation: AssertDiff::Relation::Union,
+      relation: AssertDeepMatches::Relation::Union,
     )
   end
 end

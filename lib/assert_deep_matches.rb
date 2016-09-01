@@ -1,9 +1,9 @@
 require "mocha/parameter_matchers"
 
-require "assert_diff/version"
-require "assert_diff/deep_matcher"
+require "assert_deep_matches/version"
+require "assert_deep_matches/deep_matcher"
 
-module AssertDiff
+module AssertDeepMatches
   include Mocha::ParameterMatchers
 
   module Relation
