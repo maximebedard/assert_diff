@@ -1,9 +1,9 @@
 require "test_helper"
 
 module AssertDiff
-  class DifferTest < Minitest::Test
+  class DeepMatcherTest < Minitest::Test
     def setup
-      @differ = Differ.new
+      @differ = DeepMatcher.new
     end
 
     def test_same_value

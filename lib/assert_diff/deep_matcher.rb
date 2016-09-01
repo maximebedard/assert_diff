@@ -1,12 +1,11 @@
 module AssertDiff
-  class Differ
-    def initialize(comparator: Comparators::Flexible.new, relation: Relation::Union)
-      @comparator = comparator
+  class DeepMatcher
+    def initialize(relation: Relation::Union)
       @relation = relation
     end
 
     def diff(a, b)
-      return if comparator.call(a, b)
+      return if compare(a, b)
 
       if hashes?(a, b)
         diff_hash(a, b)
@@ -19,7 +18,9 @@ module AssertDiff
 
     private
 
-    attr_reader :comparator, :relation
+    def compare(a, b)
+      b.to_matcher.matches?([a])
+    end
 
     def hashes?(*args)
       args.all? { |elem| elem.is_a?(Hash) }
@@ -30,7 +31,7 @@ module AssertDiff
     end
 
     def diff_hash(a, b)
-      keys = relation.call(a.keys, b.keys)
+      keys = @relation.call(a.keys, b.keys)
 
       keys.each_with_object([{}, {}]) do |k, memo|
         next memo unless match = diff(a[k], b[k])

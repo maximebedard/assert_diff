@@ -7,59 +7,47 @@ class AssertDiffTest < Minitest::Test
     refute_nil ::AssertDiff::VERSION
   end
 
-  def test_assert_diff_same
-    assert_diff_same(
+  def test_assert_deep_matches_identical
+    assert_deep_matches(
       { "checkout" => { "token" => 123123, "billing_address" => { "zip" => "90210" } } },
       { "checkout" => { "token" => 123123, "billing_address" => { "zip" => "90210" } } },
     )
   end
 
-  def test_assert_diff_same_union
-    assert_diff_same_union(
-      { "checkout" => { "token" => "123123", "billing_address" => { "zip" => "90210" } } },
-      { "checkout" => { "billing_address" => { "zip" => "90210" } } },
-    )
-  end
-
-  def test_assert_diff_same_array
-    assert_diff_same(
+  def test_assert_deep_matches_array_identical
+    assert_deep_matches(
       [{ "id" => "USPS-10.00", "price" => "10.00" }],
       [{ "id" => "USPS-10.00", "price" => "10.00" }],
     )
   end
 
-  def test_assert_diff_same_union_array
-    assert_diff_same_union(
-      [{ "id" => "USPS-10.00", "price" => "10.00", "title" => "UPS Ground" }],
-      [{ "id" => "USPS-10.00", "price" => "10.00" }],
-    )
-  end
-
-  def test_assert_diff_equal
-    assert_diff_equal(
+  def test_assert_deep_matches
+    assert_deep_matches(
       { "checkout" => { "token" => SecureRandom.hex, "billing_address" => { "zip" => "90210" } } },
-      { "checkout" => { "token" => /\w+/, "billing_address" => { "zip" => "90210" } } },
+      { "checkout" => { "token" => regexp_matches(/\w+/), "billing_address" => { "zip" => "90210" } } },
     )
   end
 
-  def test_assert_diff_equal_union
-    assert_diff_equal_union(
+  def test_assert_deep_matches_union
+    assert_deep_matches(
       { "checkout" => { "token" => "123123", "billing_address" => { "zip" => "90210" } } },
-      { "checkout" => { "token" => /\d+/ } },
+      { "checkout" => { "token" => regexp_matches(/\d+/) } },
+      { relation: AssertDiff::Relation::Union },
     )
   end
 
-  def test_assert_diff_equal_array
-    assert_diff_equal(
+  def test_assert_deep_matches_array
+    assert_deep_matches(
       [{ "id" => "USPS-10.00", "price" => "10.00" }],
-      [{ "id" => /\w+\-\d+\.\d+/, "price" => "10.00" }],
+      [{ "id" => regexp_matches(/\w+\-\d+\.\d+/), "price" => "10.00" }],
     )
   end
 
-  def test_assert_diff_equal_union_array
-    assert_diff_equal_union(
+  def test_assert_deep_matches_union_array
+    assert_deep_matches(
       [{ "id" => "USPS-10.00", "price" => "10.00" }],
-      [{ "id" => /\w+\-\d+\.\d+/ }],
+      [{ "id" => regexp_matches(/\w+\-\d+\.\d+/) }],
+      relation: AssertDiff::Relation::Union,
     )
   end
 end
